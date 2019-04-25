@@ -44,7 +44,7 @@ async def on_message(message):
         print(text)
         start = text.find("ID: ") + 4
         if start == 3:
-            await message.channel.send("Oops, I can't quite see the raid code. Looks like you'll have to type it out manually.")
+            await message.channel.send("Oops, I can't quite see the raid code. I have trouble reading it if there's cut-off text above it.")
         else:
             text = text[start: start + 8]
             await message.channel.send(text)
