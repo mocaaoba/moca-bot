@@ -21,7 +21,7 @@ async def on_message(message):
         response = requests.get(url)
         img = Image.open(BytesIO(response.content))
         text = pytesseract.image_to_string(img)
-        start = text.index("Raid ID: ") + 9
+        start = text.index("ID: ") + 4
         text = text[start: start + 8]
         await message.channel.send(text)
 
