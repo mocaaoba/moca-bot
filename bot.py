@@ -22,8 +22,11 @@ async def on_message(message):
         img = Image.open(BytesIO(response.content))
         text = pytesseract.image_to_string(img)
         print(text)
-        start = text.index("ID: ") + 4
-        text = text[start: start + 8]
-        await message.channel.send(text)
+        start = text.find("ID: ") + 4
+        if start == -1:
+            await message.channel.send("Oops, I can't quite see the raid code. Looks like you'll have to type it out manually.")
+        else:
+            text = text[start: start + 8]
+            await message.channel.send(text)
 
 client.run(os.environ['TOKEN'])
