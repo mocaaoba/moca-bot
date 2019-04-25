@@ -22,7 +22,7 @@ async def on_message(message):
         img = Image.open(BytesIO(response.content)).convert("LA")
         black = (0, 0, 0)
         white = (255, 255, 255)
-        threshold = (60, 60, 60)
+        threshold = (50, 50, 50)
         pixels = img.getdata()
 
         newPixels = []
