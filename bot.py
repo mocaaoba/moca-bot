@@ -42,7 +42,7 @@ async def on_message(message):
 
         text = pytesseract.image_to_string(newImg)
         print(text)
-        start = text.find("ID: ") + 4
+        start = text.find("ID") + 4
         if start == 3:
             await message.channel.send("Oops, I can't quite see the raid code. I have trouble reading it if there's cut-off text above it.")
         else:
