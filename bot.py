@@ -19,8 +19,26 @@ async def on_message(message):
         attach = message.attachments[0]
         url = attach.url
         response = requests.get(url)
-        img = Image.open(BytesIO(response.content))
-        text = pytesseract.image_to_string(img)
+        img = Image.open(BytesIO(response.content)).convert("LA")
+        black = (0, 0, 0)
+        white = (255, 255, 255)
+        threshold = (60, 60, 60)
+        pixels = img.getdata()
+
+        newPixels = []
+
+        # Compare each pixel
+        for pixel in pixels:
+            if pixel < threshold:
+                newPixels.append(white)
+            else:
+                newPixels.append(black)
+
+        # Create and save new image.
+        newImg = Image.new("RGB", img.size)
+        newImg.putdata(newPixels)
+
+        text = pytesseract.image_to_string(newImg)
         print(text)
         start = text.find("ID: ") + 4
         if start == 3:
