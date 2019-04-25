@@ -40,7 +40,7 @@ async def on_message(message):
         newImg = Image.new("RGB", img.size)
         newImg.putdata(newPixels)
 
-        text = pytesseract.image_to_string(newImg)
+        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2")
         print(text)
         start = text.find("ID") + 4
         if start == 3:
