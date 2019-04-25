@@ -20,9 +20,11 @@ async def on_message(message):
         url = attach.url
         response = requests.get(url)
         img = Image.open(BytesIO(response.content)).convert("LA")
+        new_size = tuple(2*x for x in img.size)
+        img = img.resize(new_size, Image.ANTIALIAS)
         black = (0, 0, 0)
         white = (255, 255, 255)
-        threshold = (50, 50, 50)
+        threshold = (55, 55, 55)
         pixels = img.getdata()
 
         newPixels = []
@@ -30,9 +32,9 @@ async def on_message(message):
         # Compare each pixel
         for pixel in pixels:
             if pixel < threshold:
-                newPixels.append(white)
-            else:
                 newPixels.append(black)
+            else:
+                newPixels.append(white)
 
         # Create and save new image.
         newImg = Image.new("RGB", img.size)
