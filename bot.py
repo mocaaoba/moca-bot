@@ -57,7 +57,7 @@ async def on_message(message):
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
         
         #Feed image into black box to read it. Replace letters that can't be in a Raid ID with what they probably are
-        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("I", "1")
+        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2")
         
         #Debugging this piece of pasta
         print(text)
@@ -68,7 +68,7 @@ async def on_message(message):
         #Only send the code if we actually found the Raid ID. Otherwise the image is either not a raid code or we couldnt read it.
         if start != 3:
             text = text[start: start + 8]
-            await message.channel.send(text)
+            await message.channel.send(text.replace("I", "1"))
 
 #Stuff for hosting it
 client.run(os.environ['TOKEN'])
