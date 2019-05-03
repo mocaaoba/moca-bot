@@ -19,7 +19,7 @@ async def on_message(message):
         return
     
     #Check if this is the raids channel and there is exactly 1 picture attached
-    if message.channel.name == "raids" and len(message.attachments) == 1:
+    if (message.channel.name == "raids" or message.channel.name = "ubhl" or message.channel.name == "lucilius-hard") and len(message.attachments) == 1:
         attach = message.attachments[0]
         
         #Url of the attachment
