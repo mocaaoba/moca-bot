@@ -76,10 +76,11 @@ async def on_message(message):
             else:
                 await message.channel.send(text)
             if message.content == "debug":
-                with io.BytesIO() as output:
-                    newImg.save(output, format="PNG")
-                    contents = output.getvalue()
-                    print(contents)
+                byteImgIO = io.BytesIO()
+                newImg.save(byteImgIO, "PNG")
+                byteImgIO.seek(0)
+                newImg = byteImgIO.read()
+                print(newImg)
 
 #Stuff for hosting it
 client.run(os.environ['TOKEN'])
