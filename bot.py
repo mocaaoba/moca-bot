@@ -79,7 +79,12 @@ async def on_message(message):
                 with io.BytesIO() as output:
                     newImg.save(output, format="PNG")
                     contents = output.getvalue()
-                    await message.channel.send(contents)
+                    strings = []
+                    while len(contents) > 2000:
+                        strings.append(contents[0: 2000])
+                        contents = contents[2000:]
+                    for s in strings:
+                        await message.channel.send(s)
 
 #Stuff for hosting it
 client.run(os.environ['TOKEN'])
