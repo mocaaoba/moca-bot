@@ -5,6 +5,7 @@ from io import BytesIO
 import os
 import pytesseract
 import base64
+import io
 
 #Some boilerplate discord bot stuff
 client = discord.Client()
