@@ -74,7 +74,7 @@ async def on_message(message):
             else:
                 await message.channel.send(text)
             if message.content == "debug":
-                newImg.save(output, "PNG")
+                output = newImg.save("debug.png", "PNG")
                 await message.channel.send(file=discord.File(output, "debug.png"))
 
 #Stuff for hosting it
