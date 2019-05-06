@@ -69,7 +69,7 @@ async def on_message(message):
         if start != 3:
             text = text[start: start + 8]
             text = text.replace("I", "1")
-            if text.find(" ") == -1:
+            if text.find(" ") != -1:
                 await message.channel.send("Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
             else:
                 await message.channel.send(text)
