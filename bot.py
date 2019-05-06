@@ -4,6 +4,7 @@ import requests
 from io import BytesIO
 import os
 import pytesseract
+import base64
 
 #Some boilerplate discord bot stuff
 client = discord.Client()
@@ -74,8 +75,7 @@ async def on_message(message):
             else:
                 await message.channel.send(text)
             if message.content == "debug":
-                output = newImg.save("debug.png", "PNG")
-                await message.channel.send(file=discord.File(output, "debug.png"))
+                await message.channel.send(base64.b64encode(newImg.read()))
 
 #Stuff for hosting it
 client.run(os.environ['TOKEN'])
