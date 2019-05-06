@@ -77,7 +77,7 @@ async def on_message(message):
                 await message.channel.send(text)
             if message.content == "debug":
                 with io.BytesIO() as output:
-                    image.save(output, format="PNG")
+                    newImg.save(output, format="PNG")
                     contents = output.getvalue()
                     await message.channel.send(contents)
 
