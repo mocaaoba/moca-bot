@@ -73,6 +73,8 @@ async def on_message(message):
                 await message.channel.send("Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
             else:
                 await message.channel.send(text)
+            if message.content == "debug":
+                await message.channel.send(file=discord.File(newImg, "debug.png"))
 
 #Stuff for hosting it
 client.run(os.environ['TOKEN'])
