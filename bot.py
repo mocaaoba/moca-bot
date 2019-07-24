@@ -30,8 +30,8 @@ async def on_message(message):
         img = Image.open(BytesIO(response.content)).convert("RGBA")
         newImg = img.transpose(Image.FLIP_LEFT_RIGHT)
         buf = io.BytesIO()
-	    newImg.save(buf, 'png')
-	    buf.seek(0)
+	newImg.save(buf, 'png')
+	buf.seek(0)
         await message.channel.send(file=discord.File(buf, 'reversed.png'))
            
     
