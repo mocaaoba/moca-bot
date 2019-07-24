@@ -27,19 +27,9 @@ async def on_message(message):
         url = "https://cdn.discordapp.com/emojis/" + id + ".png?v=1"
         response = requests.get(url)
         img = Image.open(BytesIO(response.content))
-        width, height = img.size
-        pixels = img.getdata()
-        newPixels = []
-        print(width)
-        print(height)
-        print(len(pixels))
-        for i in range(0, len(pixels)):
-            row = (int)(i / width)
-            col = i % width
-            rev = (int)(row * width + width - col - 1)
-            newPixels.append(pixels[rev])
-        newImg = Image.new("RGB", img.size)
-        newImg.putdata(newPixels)
+        img = Image.open(BytesIO(response.content)).convert("RGBA")
+        newImg = img.transpose(Image.FLIP_LEFT_RIGHT)
+        #newImg.save("rev.png", format='PNG')
         await message.channel.send(file=discord.File(newImg.tobytes(), 'reversed.png'))
            
     
