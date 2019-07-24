@@ -27,7 +27,7 @@ async def on_message(message):
         url = "https://cdn.discordapp.com/emojis/" + id + ".png?v=1"
         response = requests.get(url)
         img = Image.open(BytesIO(response.content))
-        (width, height) = img.size()
+        width, height = img.size
         pixels = img.getdata()
         newPixels = []
         for i in range(0, len(pixels)):
