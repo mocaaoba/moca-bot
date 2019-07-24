@@ -21,7 +21,24 @@ async def on_message(message):
         return
     
     if (message.content.startswith("!r")):
-        print(message.content)
+        sindex = message.content.rfind(':')
+        eindex = message.content.rfind('>')
+        id = message.content[sindex + 1:eindex]
+        url = "https://cdn.discordapp.com/emojis/" + id + ".png?v=1"
+        response = requests.get(url)
+        img = Image.open(BytesIO(response.content))
+        width, height = img.size()
+        pixels = img.getdata()
+        newPixels = []
+        for i in range(0, len(pixels)):
+            row = i / width
+            col = i % width
+            rev = row * width + width - col
+            newPixels.append(pixels[rev])
+        newImg = Image.new("RGB", img.size)
+        newImg.putdata(newPixels)
+        await client.send_file(message.channel, newImg)
+           
     
     #Check if this is the raids channel and there is exactly 1 picture attached
     if (message.channel.name == "raids" or message.channel.name == "ubhl" or message.channel.name == "lucilius-hard") and len(message.attachments) == 1:
