@@ -29,7 +29,7 @@ async def on_message(message):
         img = Image.open(BytesIO(response.content))
         img = Image.open(BytesIO(response.content)).convert("RGBA")
         newImg = img.transpose(Image.FLIP_LEFT_RIGHT)
-        buf = io.BytesIO()
+	buf = io.BytesIO()
 	newImg.save(buf, 'png')
 	buf.seek(0)
 	print("plz send")
