@@ -40,7 +40,7 @@ async def on_message(message):
             newPixels.append(pixels[rev])
         newImg = Image.new("RGB", img.size)
         newImg.putdata(newPixels)
-        await client.send_file(message.channel, newImg)
+        await message.channel.send(file=newImg)
            
     
     #Check if this is the raids channel and there is exactly 1 picture attached
