@@ -30,7 +30,8 @@ async def on_message(message):
         img = Image.open(BytesIO(response.content)).convert("RGBA")
         newImg = img.transpose(Image.FLIP_LEFT_RIGHT)
         #newImg.save("rev.png", format='PNG')
-        await message.channel.send(file=discord.File(newImg.tobytes(), 'reversed.png'))
+        #await message.channel.send(file=discord.File(newImg.tobytes(), 'reversed.png'))
+        await client.send_file(message.channel, newImg)
            
     
     #Check if this is the raids channel and there is exactly 1 picture attached
