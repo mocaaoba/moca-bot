@@ -33,7 +33,6 @@ async def on_message(message):
         buf = io.BytesIO()
         newImg.save(buf, 'png')
         buf.seek(0)
-        print("plz send")
         await message.channel.send(file=discord.File(buf, 'reversed.png'))
 
     # Check if this is the raids channel and there is exactly 1 picture attached
