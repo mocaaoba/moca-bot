@@ -36,11 +36,7 @@ async def on_message(message):
         for i in range(0, len(pixels)):
             row = (int)(i / width)
             col = i % width
-            rev = (int)(row * width + width - col)
-            if(rev > len(pixels)):
-                print(i)
-                print(row)
-                print(col)
+            rev = (int)(row * width + width - col - 1)
             newPixels.append(pixels[rev])
         newImg = Image.new("RGB", img.size)
         newImg.putdata(newPixels)
