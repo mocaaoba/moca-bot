@@ -20,6 +20,9 @@ async def on_message(message):
     if message.author == client.user:
         return
     
+    if (message.content.startswith("!r")):
+        print(message.content)
+    
     #Check if this is the raids channel and there is exactly 1 picture attached
     if (message.channel.name == "raids" or message.channel.name == "ubhl" or message.channel.name == "lucilius-hard") and len(message.attachments) == 1:
         attach = message.attachments[0]
