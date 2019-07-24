@@ -30,10 +30,17 @@ async def on_message(message):
         width, height = img.size
         pixels = img.getdata()
         newPixels = []
+        print(width)
+        print(height)
+        print(len(pixels))
         for i in range(0, len(pixels)):
             row = (int)(i / width)
             col = i % width
             rev = (int)(row * width + width - col)
+            if(rev > len(pixels)):
+                print(i)
+                print(row)
+                print(col)
             newPixels.append(pixels[rev])
         newImg = Image.new("RGB", img.size)
         newImg.putdata(newPixels)
