@@ -30,6 +30,7 @@ async def on_message(message):
         response = requests.get(url)
         img = Image.open(BytesIO(response.content)).convert("RGBA")
         newImg = img.transpose(Image.FLIP_LEFT_RIGHT)
+        newImg = newImg.resize((32,32), Image.ANTIALIAS)
         buf = io.BytesIO()
         newImg.save(buf, 'png')
         buf.seek(0)
