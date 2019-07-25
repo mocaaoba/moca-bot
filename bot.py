@@ -36,6 +36,21 @@ async def on_message(message):
         newImg.save(buf, 'png', quality=100)
         buf.seek(0)
         await message.channel.send(file=discord.File(buf, 'reversed.png'))
+        
+    if (message.content.startswith("!f")):
+        if (len(message.attachments) != 1):
+            await message.channel.send("Moca-chan is a genius, but she can't do anything if you don't attach exactly one file.")
+        else:
+            attach = message.attachments[0]
+            url = attach.url
+            response = requests.get(url)
+            img = Image.open(BytesIO(response.content)).convert("RGBA")
+            newImg = img.transpose(Image.FLIP_LEFT_RIGHT)
+            #newImg = newImg.resize((32,32), Image.ANTIALIAS)
+            buf = io.BytesIO()
+            newImg.save(buf, 'png')
+            buf.seek(0)
+            await message.channel.send(file=discord.File(buf, 'reversed.png'))
 
     # Check if this is the raids channel and there is exactly 1 picture attached
     if (
