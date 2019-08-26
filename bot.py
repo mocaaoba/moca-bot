@@ -94,6 +94,7 @@ async def on_message(message):
 
         # Feed image into black box to read it. Replace letters that can't be in a Raid ID with what they probably are
         text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2")
+        saveText = text
 
         # Debugging this piece of pasta
         print(text)
@@ -114,8 +115,8 @@ async def on_message(message):
                 byteImgIO = io.BytesIO()
                 newImg.save(byteImgIO, "PNG")
                 byteImgIO.seek(0)
-                newImg = byteImgIO.read()
-                print(newImg)
+                await message.channel.send(saveText)
+                await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
 
 
 # Stuff for hosting it
