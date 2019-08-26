@@ -101,6 +101,13 @@ async def on_message(message):
 
         # The start of the raid code
         start = text.find("ID") + 4
+        
+        if message.content == "debug":
+                byteImgIO = io.BytesIO()
+                newImg.save(byteImgIO, "PNG")
+                byteImgIO.seek(0)
+                await message.channel.send(saveText)
+                await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
 
         # Only send the code if we actually found the Raid ID. Otherwise the image is either not a raid code or we couldnt read it.
         if start != 3:
@@ -111,12 +118,6 @@ async def on_message(message):
                     "Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
             else:
                 await message.channel.send(text)
-            if message.content == "debug":
-                byteImgIO = io.BytesIO()
-                newImg.save(byteImgIO, "PNG")
-                byteImgIO.seek(0)
-                await message.channel.send(saveText)
-                await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
 
 
 # Stuff for hosting it
