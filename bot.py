@@ -68,8 +68,8 @@ async def on_message(message):
         img = Image.open(BytesIO(response.content)).convert("LA")
 
         # Double image size for better reading
-        new_size = tuple(2 * x for x in img.size)
-        img = img.resize(new_size, Image.ANTIALIAS)
+        #new_size = tuple(2 * x for x in img.size)
+        #img = img.resize(new_size, Image.ANTIALIAS)
 
         # Convert image to black and white
         black = (0, 0, 0)
@@ -88,6 +88,9 @@ async def on_message(message):
         # Create new image to read
         newImg = Image.new("RGB", img.size)
         newImg.putdata(newPixels)
+        
+        new_size = tuple(2 * x for x in newImg.size)
+        newImg = newImg.resize(new_size, Image.ANTIALIAS)
 
         # Path to tesseract binary or something
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
@@ -108,6 +111,8 @@ async def on_message(message):
                 byteImgIO.seek(0)
                 await message.channel.send(saveText)
                 await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
+                #new_size = tuple(2 * x for x in newImg.size)
+                #bigImg = newImg.resize(new_size, Image.ANTIALIAS)
 
         # Only send the code if we actually found the Raid ID. Otherwise the image is either not a raid code or we couldnt read it.
         if start != 3:
