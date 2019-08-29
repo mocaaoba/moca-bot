@@ -89,7 +89,7 @@ async def on_message(message):
         newImg = Image.new("RGB", img.size)
         newImg.putdata(newPixels)
         
-        new_size = tuple(4 * x for x in newImg.size)
+        new_size = tuple(2 * x for x in newImg.size)
         newImg = newImg.resize(new_size, Image.ANTIALIAS)
 
         # Path to tesseract binary or something
