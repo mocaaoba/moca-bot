@@ -90,7 +90,7 @@ async def on_message(message):
         newImg.putdata(newPixels)
         
         new_size = tuple(2 * x for x in newImg.size)
-        newImg = newImg.resize(new_size, Image.ANTIALIAS)
+        newImg = newImg.resize(new_size, Image.NEAREST)
 
         # Path to tesseract binary or something
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
