@@ -84,13 +84,26 @@ async def on_message(message):
                 newPixels.append(black)
             else:
                 newPixels.append(white)
+                
+        finalpix = [None] * (4 * len(newPixels))
+        n, m = img.size
+        for x in range(len(newPixels)):
+            finalpix[2 * (x / n) * 2 * n + 2 * (x % n)] = newPixels[x]
+            finalpix[2 * (x / n) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
+            finalpix[(2 * (x / n) + 1) * 2 * n + 2 * (x % n)] = newPixels[x]
+            finalpix[(2 * (x / n) + 1) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
 
         # Create new image to read
-        newImg = Image.new("RGB", img.size)
-        newImg.putdata(newPixels)
+        #newImg = Image.new("RGB", img.size)
+        #newImg.putdata(newPixels)
+        new_size = tuple(2 * x for x in img.size)
+        newImg = Image.new("RGB", new_size)
+        newImg.putdata(finalpix)
         
-        new_size = tuple(2 * x for x in newImg.size)
-        newImg = newImg.resize(new_size, Image.BICUBIC)
+        
+        
+        #new_size = tuple(2 * x for x in newImg.size)
+        #newImg = newImg.resize(new_size, Image.ANTIALIAS)
 
         # Path to tesseract binary or something
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
