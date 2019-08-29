@@ -88,10 +88,10 @@ async def on_message(message):
         finalpix = [None] * (4 * len(newPixels))
         n, m = img.size
         for x in range(len(newPixels)):
-            finalpix[2 * (x / n) * 2 * n + 2 * (x % n)] = newPixels[x]
-            finalpix[2 * (x / n) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
-            finalpix[(2 * (x / n) + 1) * 2 * n + 2 * (x % n)] = newPixels[x]
-            finalpix[(2 * (x / n) + 1) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
+            finalpix[2 * int(x / n) * 2 * n + 2 * (x % n)] = newPixels[x]
+            finalpix[2 * int(x / n) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
+            finalpix[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n)] = newPixels[x]
+            finalpix[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
 
         # Create new image to read
         #newImg = Image.new("RGB", img.size)
