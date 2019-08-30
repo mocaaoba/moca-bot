@@ -85,7 +85,7 @@ async def on_message(message):
             newPixels[2 * int(x / n) * 2 * n + 2 * (x % n)] = color
             newPixels[2 * int(x / n) * 2 * n + 2 * (x % n) + 1] = color
             newPixels[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n)] = color
-            newPixels[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n) + 1] = colo
+            newPixels[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n) + 1] = color
                 
         #finalpix = [None] * (4 * len(newPixels))
         #n, m = img.size
