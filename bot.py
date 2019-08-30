@@ -76,14 +76,16 @@ async def on_message(message):
         white = (255, 255, 255)
         threshold = (55, 55, 55)
         pixels = img.getdata()
-        newPixels = []
-
-        # Compare each pixel
-        for pixel in pixels:
-            if pixel < threshold:
-                newPixels.append(black)
-            else:
-                newPixels.append(white)
+        newPixels = [None] * (4 * len(pixels))
+        n, m = img.size
+        for x in range(len(pixels)):
+            color = white
+            if pixels[x] < threshold:
+                color = black
+            newPixels[2 * int(x / n) * 2 * n + 2 * (x % n)] = color
+            newPixels[2 * int(x / n) * 2 * n + 2 * (x % n) + 1] = color
+            newPixels[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n)] = color
+            newPixels[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n) + 1] = colo
                 
         #finalpix = [None] * (4 * len(newPixels))
         #n, m = img.size
@@ -94,7 +96,8 @@ async def on_message(message):
         #    finalpix[(2 * int(x / n) + 1) * 2 * n + 2 * (x % n) + 1] = newPixels[x]
 
         # Create new image to read
-        newImg = Image.new("RGB", img.size)
+        new_size = tuple(2 * x for x in img.size)
+        newImg = Image.new("RGB", new_size)
         newImg.putdata(newPixels)
         #new_size = tuple(2 * x for x in img.size)
         #newImg = Image.new("RGB", new_size)
@@ -103,7 +106,7 @@ async def on_message(message):
         
         
         new_size = tuple(2 * x for x in newImg.size)
-        newImg = newImg.resize(new_size, Image.ANTIALIAS)
+        newImg = newImg.resize(new_size, Image.NEAREST)
 
         # Path to tesseract binary or something
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
