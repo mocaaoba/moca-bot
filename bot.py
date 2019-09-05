@@ -112,7 +112,7 @@ async def on_message(message):
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 
         # Feed image into black box to read it. Replace letters that can't be in a Raid ID with what they probably are
-        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1")
+        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
         saveText = text
 
         # Debugging this piece of pasta
