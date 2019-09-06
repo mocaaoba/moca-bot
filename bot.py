@@ -6,6 +6,7 @@ import os
 import pytesseract
 import base64
 import io
+import time
 
 # Some boilerplate discord bot stuff
 client = discord.Client()
@@ -72,6 +73,7 @@ async def on_message(message):
         #img = img.resize(new_size, Image.ANTIALIAS)
 
         # Convert image to black and white
+        prestart = time.time()
         black = (0, 0, 0)
         white = (255, 255, 255)
         threshold = (55, 55, 55)
@@ -107,9 +109,13 @@ async def on_message(message):
         
         new_size = tuple(2 * x for x in newImg.size)
         newImg = newImg.resize(new_size, Image.ANTIALIAS)
+        
+        preend = time.time()
 
         # Path to tesseract binary or something
+        readstart = time.time()
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
+        readend = time.time()
 
         # Feed image into black box to read it. Replace letters that can't be in a Raid ID with what they probably are
         text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
@@ -126,6 +132,7 @@ async def on_message(message):
                 newImg.save(byteImgIO, "PNG")
                 byteImgIO.seek(0)
                 await message.channel.send(saveText)
+                await message.channel.send("preprocessing: " + str(preend - prestart) + " ocr: " + str(readend - readstart))
                 await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
                 #new_size = tuple(2 * x for x in newImg.size)
                 #bigImg = newImg.resize(new_size, Image.ANTIALIAS)
