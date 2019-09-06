@@ -126,6 +126,8 @@ async def on_message(message):
 
         # The start of the raid code
         start = text.find("ID") + 4
+        if start == 3:
+            start = text.find("1D") + 4
         
         if message.content == "debug":
                 byteImgIO = io.BytesIO()
