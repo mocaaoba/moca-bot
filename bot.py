@@ -79,14 +79,14 @@ async def on_message(message):
         prestart = time.time()
         black = (0, 0, 0)
         white = (255, 255, 255)
-        gval = 100
+        gval = 150
         threshold = (gval, gval, gval)
         pixels = img.getdata()
         newPixels = [None] * (4 * len(pixels))
         n, m = img.size
         for x in range(len(pixels)):
             color = white
-            if pixels[x] < threshold:
+            if pixels[x][1] < gval:
                 color = black
             newPixels[2 * int(x / n) * 2 * n + 2 * (x % n)] = color
             newPixels[2 * int(x / n) * 2 * n + 2 * (x % n) + 1] = color
