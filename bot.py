@@ -76,7 +76,7 @@ async def on_message(message):
         prestart = time.time()
         black = (0, 0, 0)
         white = (255, 255, 255)
-        threshold = (55, 55, 55)
+        threshold = (60, 60, 60)
         pixels = img.getdata()
         newPixels = [None] * (4 * len(pixels))
         n, m = img.size
