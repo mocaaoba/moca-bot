@@ -137,6 +137,7 @@ async def on_message(message):
                 byteImgIO = io.BytesIO()
                 newImg.save(byteImgIO, "PNG")
                 byteImgIO.seek(0)
+                saveText += "."
                 await message.channel.send(saveText)
                 await message.channel.send("preprocessing: " + str(preend - prestart) + " ocr: " + str(readend - readstart) + " threshold: " + str(threshold))
                 await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
