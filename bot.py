@@ -79,7 +79,7 @@ async def on_message(message):
         prestart = time.time()
         black = (0, 0, 0)
         white = (255, 255, 255)
-        threshold = (70, 70, 70)
+        threshold = (80, 80, 80)
         pixels = img.getdata()
         newPixels = [None] * (4 * len(pixels))
         n, m = img.size
@@ -137,7 +137,7 @@ async def on_message(message):
                 newImg.save(byteImgIO, "PNG")
                 byteImgIO.seek(0)
                 await message.channel.send(saveText)
-                await message.channel.send("preprocessing: " + str(preend - prestart) + " ocr: " + str(readend - readstart))
+                await message.channel.send("preprocessing: " + str(preend - prestart) + " ocr: " + str(readend - readstart) + " threshold: " + str(threshold))
                 await message.channel.send(file=discord.File(byteImgIO, 'debug.png'))
                 #new_size = tuple(2 * x for x in newImg.size)
                 #bigImg = newImg.resize(new_size, Image.ANTIALIAS)
