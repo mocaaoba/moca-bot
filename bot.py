@@ -23,6 +23,9 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    if (message.content.find("571004166604849162") != -1):
+        await message.channel.send("Could you please stop overworking Moca-chan? Maybe Moca-chan should just go back to sleep...")
+    
     if (message.content.startswith("!r")):
         sindex = message.content.rfind(':')
         eindex = message.content.rfind('>')
