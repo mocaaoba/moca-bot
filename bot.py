@@ -69,7 +69,7 @@ async def on_message(message):
         # Open the image from the url and convert to grayscale
         img = Image.open(BytesIO(response.content))
         
-        img.filter(ImageFilter.SHARPEN)
+        img.filter(ImageFilter.EDGE_ENHANCE)
         threshold = 125
         black = (0, 0, 0)
         white = (255, 255, 255)
