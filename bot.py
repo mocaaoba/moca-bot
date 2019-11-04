@@ -26,7 +26,7 @@ async def on_message(message):
     if (message.content.find("571004166604849162") != -1):
         await message.channel.send("Could you please stop overworking Moca-chan? Maybe Moca-chan should just go back to sleep...")
     
-    if (message.content.startswith("!r")):
+    elif (message.content.startswith("!r")):
         sindex = message.content.rfind(':')
         eindex = message.content.rfind('>')
         id = message.content[sindex + 1:eindex]
@@ -41,7 +41,7 @@ async def on_message(message):
         buf.seek(0)
         await message.channel.send(file=discord.File(buf, 'reversed.png'))
         
-    if (message.content.startswith("!f")):
+    elif (message.content.startswith("!f")):
         if (len(message.attachments) != 1):
             await message.channel.send("Moca-chan is a genius, but she can't do anything if you don't attach exactly one file.")
         else:
@@ -56,8 +56,44 @@ async def on_message(message):
             buf.seek(0)
             await message.channel.send(file=discord.File(buf, 'reversed.png'))
 
+    elif (message.content.startswith("ocr")):
+        attach = message.attachments[0]
+
+        # Url of the attachment
+        url = attach.url
+
+        # Get information from the url
+        response = requests.get(url)
+
+        # Open the image from the url and convert to grayscale
+        img = Image.open(BytesIO(response.content))
+        
+        if message.content.find("resize") != -1:
+            new_size = tuple(2 * x for x in img.size)
+            img = img.resize(new_size, Image.ANTIALIAS)
+            
+        pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
+        
+        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
+        saveText = text
+
+        # The start of the raid code
+        start = text.find("ID") + 4
+        if start == 3:
+            start = text.find("1D") + 4
+            
+        await message.channel.send(saveText)
+        if start != 3:
+            text = text[start: start + 8]
+            text = text.replace("I", "1")
+            if text.find(" ") != -1:
+                await message.channel.send(
+                    "Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
+            else:
+                await message.channel.send(text)
+            
     # Check if this is the raids channel and there is exactly 1 picture attached
-    if (
+    elif (
             message.channel.name == "raids" or message.channel.name == "ubhl" or message.channel.name == "lucilius-hard") and len(
             message.attachments) == 1:
         attach = message.attachments[0]
