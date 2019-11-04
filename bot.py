@@ -1,5 +1,6 @@
 import discord
 from PIL import Image
+from PIL import ImageFilter
 import requests
 from io import BytesIO
 import os
