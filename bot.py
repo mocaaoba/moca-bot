@@ -74,7 +74,7 @@ async def on_message(message):
             
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
         
-        text = pytesseract.image_to_string(newImg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
+        text = pytesseract.image_to_string(img).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
         saveText = text
 
         # The start of the raid code
