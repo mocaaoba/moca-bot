@@ -172,23 +172,24 @@ async def on_message(message):
         threshold = 125
         black = (0, 0, 0)
         white = (255, 255, 255)
-        pixels = img.getdata(band=1)
-        newpixels = []
-        for pixel in pixels:
-            if pixel < threshold:
-                newpixels.append(black)
-            else:
-                newpixels.append(white)
+        #pixels = img.getdata(band=1)
+        #newpixels = []
+        #for pixel in pixels:
+            #if pixel < threshold:
+                #newpixels.append(black)
+            #else:
+                #newpixels.append(white)
                 
-        newimg = Image.new("RGB", img.size)
-        newimg.putdata(newpixels)
+        #newimg = Image.new("RGB", img.size)
+        #newimg.putdata(newpixels)
+        newimg = img
         
         new_size = tuple(2 * x for x in newimg.size)
         newimg = newimg.resize(new_size, Image.ANTIALIAS)
         
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
         
-        text = pytesseract.image_to_string(newimg).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
+        text = pytesseract.image_to_string(newimg, config='-psm 7').replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
         saveText = text
         
         # The start of the raid code
