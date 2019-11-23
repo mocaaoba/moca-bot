@@ -73,16 +73,19 @@ async def on_message(message):
         threshold = 125
         black = (0, 0, 0)
         white = (255, 255, 255)
-        pixels = img.getdata(band=1)
-        newpixels = []
-        for pixel in pixels:
-            if pixel < threshold:
-                newpixels.append(black)
-            else:
-                newpixels.append(white)
+        test = True
+        newimg = img
+        if not test:
+            pixels = img.getdata(band=1)
+            newpixels = []
+            for pixel in pixels:
+                if pixel < threshold:
+                    newpixels.append(black)
+                else:
+                    newpixels.append(white)
                 
-        newimg = Image.new("RGB", img.size)
-        newimg.putdata(newpixels)
+            newimg = Image.new("RGB", img.size)
+            newimg.putdata(newpixels)
         
         new_size = tuple(2 * x for x in newimg.size)
         newimg = newimg.resize(new_size, Image.ANTIALIAS)
