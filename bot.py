@@ -63,6 +63,8 @@ async def on_message(message):
         # Url of the attachment
         url = attach.url
 
+        start = time.time()
+        
         # Get information from the url
         response = requests.get(url)
 
@@ -90,10 +92,14 @@ async def on_message(message):
         new_size = tuple(2 * x for x in newimg.size)
         newimg = newimg.resize(new_size, Image.ANTIALIAS)
         
+        preprocess = time.time() - start
+        
         pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
         
+        start = time.time()
         text = pytesseract.image_to_string(newimg, config='-psm 7').replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
         saveText = text
+        ocr = time.time() - start
         
         # The start of the raid code
         start = text.find("ID") + 4
@@ -101,6 +107,7 @@ async def on_message(message):
             start = text.find("1D") + 4
             
         await message.channel.send(saveText)
+        await message.channel.send("preprocess: " + str(preprocess) + " ocr: " + str(ocr))
         if start != 3:
             text = text[start: start + 8]
             text = text.replace("I", "1")
