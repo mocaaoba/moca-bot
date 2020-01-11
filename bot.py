@@ -8,15 +8,44 @@ import pytesseract
 import base64
 import io
 import time
+from bs4 import BeautifulSoup
+from googlesearch import search
 
 # Some boilerplate discord bot stuff
 client = discord.Client()
 
+def wiki_search(query):
+    prefixed_query = [prefix] + query
+    wiki_url = separator.join(prefixed_query)
+
+    html = requests.get(wiki_url).content
+    soup = BeautifulSoup(html, 'html.parser')
+
+    for script in soup(["script", "style"]):
+        script.extract()
+
+    text = soup.get_text()
+    lines = (line.strip() for line in text.splitlines())
+
+    chunks = (phrase.strip() for line in lines for phrase in line.split(" "))
+    text = " ".join(chunk for chunk in chunks if chunk)
+
+    print(text)
+
+    #URL does not exist on wiki
+    #TODO: Add condition to deal with redirects
+    if text.find("There is currently no text in this page.") != -1:
+        for result in search(" ".join(["gbf wiki"] + query), tld='com', lang='en', num=1, start=0, stop=1, pause=2.0):
+            wiki_url = result
+            end_index = wiki_url.find("?")
+            if end_index != -1:
+                wiki_url = wiki_url[:end_index]
+
+    return wiki_url
 
 @client.event
 async def on_ready():
     print("The bot is ready!")
-
 
 @client.event
 async def on_message(message):
@@ -152,7 +181,13 @@ async def on_message(message):
                     "Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
             else:
                 await message.channel.send(text)
-            
+    
+    # Check if this is the bot-related channel
+    elif(message.channel.name == "bot-related" and message.content.startswith("search")):
+        query = message.content[7:]
+        wiki_url = wiki_search([query])
+        await message.channel.sent(wiki_url)
+    
     # Check if this is the raids channel and there is exactly 1 picture attached
     elif (
             message.channel.name == "raids" or message.channel.name == "ubhl" or message.channel.name == "lucilius-hard") and len(
