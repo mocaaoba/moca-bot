@@ -189,7 +189,7 @@ async def on_message(message):
     elif(message.channel.name == "bot-related" and message.content.startswith("search")):
         query = message.content[7:]
         wiki_url = wiki_search([query])
-        await message.channel.sent(wiki_url)
+        await message.channel.send(wiki_url)
     
     # Check if this is the raids channel and there is exactly 1 picture attached
     elif (
