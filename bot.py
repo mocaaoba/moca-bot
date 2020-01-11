@@ -33,7 +33,7 @@ def wiki_search(query):
     chunks = (phrase.strip() for line in lines for phrase in line.split(" "))
     text = " ".join(chunk for chunk in chunks if chunk)
 
-    print(text)
+    #print(text)
 
     #URL does not exist on wiki
     #TODO: Add condition to deal with redirects
