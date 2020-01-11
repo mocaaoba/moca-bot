@@ -11,6 +11,9 @@ import time
 from bs4 import BeautifulSoup
 from googlesearch import search
 
+prefix = "https://gbf.wiki"
+separator = "/"
+
 # Some boilerplate discord bot stuff
 client = discord.Client()
 
