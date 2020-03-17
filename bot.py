@@ -148,42 +148,6 @@ async def on_message(message):
                     "Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
             else:
                 await message.channel.send(text)
-            
-    elif (message.content.startswith("ocr")):
-        attach = message.attachments[0]
-
-        # Url of the attachment
-        url = attach.url
-
-        # Get information from the url
-        response = requests.get(url)
-
-        # Open the image from the url and convert to grayscale
-        img = Image.open(BytesIO(response.content))
-        
-        if message.content.find("resize") != -1:
-            new_size = tuple(2 * x for x in img.size)
-            img = img.resize(new_size, Image.ANTIALIAS)
-            
-        pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
-        
-        text = pytesseract.image_to_string(img).replace("S", "8").replace("O", "0").replace("Z", "2").replace("Q", "0").replace("L", "1").replace("G", "6")
-        saveText = text
-
-        # The start of the raid code
-        start = text.find("ID") + 4
-        if start == 3:
-            start = text.find("1D") + 4
-            
-        await message.channel.send(saveText)
-        if start != 3:
-            text = text[start: start + 8]
-            text = text.replace("I", "1")
-            if text.find(" ") != -1:
-                await message.channel.send(
-                    "Sorry this feature requires 5 buns to unlock. To get more buns, please change your resolution to standard")
-            else:
-                await message.channel.send(text)
     
     # Check if this is the bot-related channel
     elif(message.channel.name == "bot-related" and message.content.startswith("search")):
