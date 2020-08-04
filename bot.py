@@ -24,6 +24,8 @@ def horny_on_main(query):
     jsonar = dump.json()
     result = jsonar["result"]
     num_nukes = len(result)
+    if num_nukes == 0:
+        return "Error 69: fetish not found"
     randomystery = random.randint(0, num_nukes - 1)
     id = result[randomystery]["id"]
     return "https://nhentai.net/g/" + str(id)
