@@ -8,6 +8,8 @@ import pytesseract
 import base64
 import io
 import time
+import requests
+import random
 from bs4 import BeautifulSoup
 from googlesearch import search
 
@@ -16,6 +18,16 @@ separator = "/"
 
 # Some boilerplate discord bot stuff
 client = discord.Client()
+
+def horny_on_main(query):
+    dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query)
+    jsonar = dump.json()
+    result = jsonar["result"]
+    num_nukes = len(result)
+    randomystery = random.randint(0, num_nukes - 1)
+    id = result[randomystery]["id"]
+    return "nhentai.net/g/" + id
+    
 
 def wiki_search(query):
     prefixed_query = [prefix] + query
@@ -154,6 +166,12 @@ async def on_message(message):
         query = message.content[7:]
         wiki_url = wiki_search([query])
         await message.channel.send(wiki_url)
+        
+    # Check if this is the NSFW channel and there's a degen
+    elif(message.channel.name == "nsfw" and message.content.startswith("degen")):
+        query = message.content[6:]
+        url = horny_on_main(query)
+        await message.channel.send(url)
     
     # Check if this is the raids channel and there is exactly 1 picture attached
     elif (
