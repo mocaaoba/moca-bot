@@ -20,7 +20,7 @@ separator = "/"
 client = discord.Client()
 
 def horny_on_main(query):
-    dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query)
+    dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query + "&sort=popular")
     jsonar = dump.json()
     result = jsonar["result"]
     num_nukes = len(result)
