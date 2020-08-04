@@ -26,7 +26,7 @@ def horny_on_main(query):
     num_nukes = len(result)
     randomystery = random.randint(0, num_nukes - 1)
     id = result[randomystery]["id"]
-    return "nhentai.net/g/" + id
+    return "nhentai.net/g/" + str(id)
     
 
 def wiki_search(query):
