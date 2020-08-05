@@ -22,16 +22,16 @@ client = discord.Client()
 def horny_on_main(query):
     dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query + "&sort=popular")
     if dump is None:
-        return "Moca-chan is a bit tired right now, how about you go look for your own degen stuff for once?"
+        return "Moca-chan is a bit tired right now, how about you go look for your own degen stuff for once?", -1
     print(dump)
     jsonar = dump.json()
     result = jsonar["result"]
     num_nukes = len(result)
     if num_nukes == 0:
-        return "Error 69: fetish not found"
+        return "Error 69: fetish not found", -1
     randomystery = random.randint(0, num_nukes - 1)
     id = result[randomystery]["id"]
-    return "https://nhentai.net/g/" + str(id)
+    return "https://nhentai.net/g/" + str(id), result[randomystery]["media_id"]
     
 
 def wiki_search(query):
@@ -175,8 +175,14 @@ async def on_message(message):
     # Check if this is the NSFW channel and there's a degen
     elif(message.channel.name == "nsfw" and message.content.startswith("degen")):
         query = message.content[6:]
-        url = horny_on_main(query)
-        await message.channel.send(url)
+        url, media_id = horny_on_main(query)
+        if media_id == -1:
+            await message.channel.send(url)
+        else:
+            e = discord.Embed(title=url)
+            cover = "https://t.nhentai.net/galleries/" + str(media_id) + "/cover.jpg"
+            e.set_image(url=cover)
+            await message.channel.send(embed=e)
     
     # Check if this is the raids channel and there is exactly 1 picture attached
     elif (
