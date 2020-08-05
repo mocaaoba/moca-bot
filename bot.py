@@ -21,6 +21,8 @@ client = discord.Client()
 
 def horny_on_main(query):
     dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query + "&sort=popular")
+    if dump is None:
+        return "Moca-chan is a bit tired right now, how about you go look for your own degen stuff for once?"
     jsonar = dump.json()
     result = jsonar["result"]
     num_nukes = len(result)
