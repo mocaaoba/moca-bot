@@ -19,6 +19,9 @@ separator = "/"
 # Some boilerplate discord bot stuff
 client = discord.Client()
 
+# To anybody reading this, this was the feature that won the poll. This was not by choice. Please don't judge.
+# Although to any recruiters out there, the nhentai API is actually surprisingly not that well documented outside of a random Github user page. 
+# You have no idea how much digging around this took.
 def horny_on_main(query):
     dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query + "&sort=popular")
     if dump is None:
