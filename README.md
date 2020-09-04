@@ -4,4 +4,4 @@ Moca uses some preprocessing and optical character recognition in order to read 
 
 Additional features include searching the GBF wiki and nhentai. I maintain that the latter was due to that feature being the most requested one.
 
-Powered by Heroku free hosting (shit service I tell you what. 99% of delay is just from the server being bad. I guess I got what I paid for).
+Powered by Heroku.
