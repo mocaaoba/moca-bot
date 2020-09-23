@@ -20,7 +20,7 @@ separator = "/"
 client = discord.Client()
 
 # To anybody reading this, this was the feature that won the poll. This was not by choice. Please don't judge.
-# Although to any recruiters out there, the nhentai API is actually surprisingly not that well documented outside of a random Github user page. 
+# Although to any recruiters out there, the nhentai API is actually surprisingly not that well documented (in English) outside of a random Github user page. 
 # You have no idea how much digging around this took.
 def horny_on_main(query):
     dump = requests.get("https://nhentai.net/api/galleries/search?query=" + query + "&sort=popular")
@@ -35,8 +35,12 @@ def horny_on_main(query):
     randomystery = random.randint(0, num_nukes - 1)
     id = result[randomystery]["id"]
     return "https://nhentai.net/g/" + str(id), result[randomystery]["media_id"]
-    
 
+# Fix spacing for wiki stuff
+def fix_spacing(s):
+    return s.replace(".", ". ").replace(".  ", ". ").replace(". )", ".)")
+    
+# Find a wiki page based on a search query (does not have to be exact)
 def wiki_search(query):
     prefixed_query = [prefix] + query
     wiki_url = separator.join(prefixed_query)
@@ -65,6 +69,24 @@ def wiki_search(query):
                 wiki_url = wiki_url[:end_index]
 
     return wiki_url
+
+def get_skill_info(url):
+    html = requests.get(url).content
+    parsed_html = BeautifulSoup(html, features="html.parser")
+    for ttt in parsed_html.body.find_all('span', attrs={'class':'tooltiptext'}):
+        ttt.decompose()
+    for gw in parsed_html.body.find_all('sup', attrs={'class':'reference'}):
+        gw.decompose()
+    skills = parsed_html.body.find_all('td', attrs={'class':'skill-name'})
+    descs =  parsed_html.body.find_all('td', attrs={'style':'text-align:left;'})
+    if len(skills) == 0:
+        return "Moca-chan didn't find anything there... are you sure you didn't make a typo?"
+    response = ""
+    for i in range(len(skills)):
+        response += fix_spacing(skills[i].text) + ": "
+        if i < len(descs):
+            response += fix_spacing(descs[i].text) + "\n"
+    return response
 
 @client.event
 async def on_ready():
@@ -169,11 +191,16 @@ async def on_message(message):
             else:
                 await message.channel.send(text)
     
-    # Check if this is the bot-related channel
-    elif(message.channel.name == "bot-related" and message.content.startswith("search")):
+    # search the gbf wiki
+    elif(message.content.startswith("search")):
         query = message.content[7:]
         wiki_url = wiki_search([query])
         await message.channel.send(wiki_url)
+        
+    elif(message.content.startswith("info")):
+        query = message.content[5:]
+        wiki_url = wiki_search([query])
+        await message.channel.send(get_skill_info(url))
         
     # Check if this is the NSFW channel and there's a degen
     elif(message.channel.name == "nsfw" and message.content.startswith("degen")):
