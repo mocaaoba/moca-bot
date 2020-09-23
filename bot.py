@@ -213,6 +213,17 @@ async def on_message(message):
         wiki_url = wiki_search([query])
         await message.channel.send(get_host_link(wiki_url))
         
+    elif(message.content.startswith("gw")):
+        query = message.content[3:]
+        url = "http://gbf.gw.lt/gw-guild-searcher/search"
+        r = requests.post(url, json={"search":query})
+        json = r.json()
+        msg = "http://game.granbluefantasy.jp/#guild/detail/" + str(json['result'][0]['id']) + "\n"
+        data = json['result'][0]['data']
+        for i in range(len(data)):
+            msg += str(data[i]['name']) + " Ranked #" + str(data[i]['rank']) + " in GW #" + str(data[i]['gw_num']) + " with " + str(data[i]['points']) + " points\n"
+        await message.channel.send(msg)
+        
     # Check if this is the NSFW channel and there's a degen
     elif(message.channel.name == "nsfw" and message.content.startswith("degen")):
         query = message.content[6:]
