@@ -88,6 +88,12 @@ def get_skill_info(url):
             response += fix_spacing(descs[i].text) + "\n"
     return response
 
+# Get host link for a quest
+def get_host_link(url):
+    html = requests.get(url).content
+    parsed_html = BeautifulSoup(html, features="html.parser")
+    return parsed_html.body.find('a', href=True, text='Start Quest')['href']
+
 @client.event
 async def on_ready():
     print("The bot is ready!")
@@ -201,6 +207,11 @@ async def on_message(message):
         query = message.content[5:]
         wiki_url = wiki_search([query])
         await message.channel.send(get_skill_info(wiki_url))
+        
+    elif(message.content.startswith("host")):
+        query = message.content[5:]
+        wiki_url = wiki_search([query])
+        await message.channel.send(get_host_link(wiki_url))
         
     # Check if this is the NSFW channel and there's a degen
     elif(message.channel.name == "nsfw" and message.content.startswith("degen")):
