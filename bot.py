@@ -83,8 +83,8 @@ def get_skill_info(url):
         return "Moca-chan didn't find anything there... are you sure you didn't make a typo?"
     response = ""
     for i in range(len(skills)):
-        response += fix_spacing(skills[i].text) + ": "
         if i < len(descs):
+            response += fix_spacing(skills[i].text) + ": "
             response += fix_spacing(descs[i].text) + "\n"
     return response
 
