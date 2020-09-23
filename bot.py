@@ -200,7 +200,7 @@ async def on_message(message):
     elif(message.content.startswith("info")):
         query = message.content[5:]
         wiki_url = wiki_search([query])
-        await message.channel.send(get_skill_info(url))
+        await message.channel.send(get_skill_info(wiki_url))
         
     # Check if this is the NSFW channel and there's a degen
     elif(message.channel.name == "nsfw" and message.content.startswith("degen")):
