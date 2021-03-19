@@ -238,7 +238,7 @@ async def on_message(message):
     
     # Check if this is the raids channel and there is exactly 1 picture attached
     elif (
-            message.channel.name == "raids" or message.channel.name == "ubhl" or message.channel.name == "lucilius-hard") and len(
+            message.channel.name == "raids" or message.channel.name == "ubhl" or message.channel.name == "lucilius-hard" or message.channel.name == "gbf") and len(
             message.attachments) == 1:
         attach = message.attachments[0]
 
